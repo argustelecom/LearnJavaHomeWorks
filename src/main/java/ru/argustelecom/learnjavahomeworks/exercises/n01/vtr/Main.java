@@ -16,7 +16,7 @@ public class Main {
         final StringBuilder sb = new StringBuilder();
         src.stream()
                 .sorted(Comparator.comparingInt(T::getFirst))
-                .forEachOrdered(item -> { sb.append(item.getSecond().toString()).append(','); } );
+                .forEachOrdered(item -> { sb.append(item.getSecond() == null ? "[NULL]" : item.getSecond().toString()).append(','); } );
         return sb.length() == 0 ? "" : sb.deleteCharAt(sb.length() - 1).toString();
     }
     
@@ -29,7 +29,8 @@ public class Main {
         print(concatSorted(Arrays.asList(
                 new Pair<>(2, "aa"),
                 new Pair<>(1, "bb"),
-                new Pair<>(5, 7)
+                new Pair<>(5, 7),
+                new Pair<>(4, null)
         )), 2);
     }
     
