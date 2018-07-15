@@ -12,11 +12,11 @@ public class Main {
     private static void print(String s, Integer l) { System.out.println(new String(new char[l]).replace('\0', ' ') + s); }
     private static void print(String s) { print(s, 0); }
     
-    private static <T extends Pair<Integer, String>> String concatSorted(List<T> src) {
+    private static <T extends Pair<? extends Integer, ?>> String concatSorted(List<T> src) {
         final StringBuilder sb = new StringBuilder();
         src.stream()
                 .sorted(Comparator.comparingInt(T::getFirst))
-                .forEachOrdered(item -> { sb.append(item.getSecond()).append(','); } );
+                .forEachOrdered(item -> { sb.append(item.getSecond() == null ? "[NULL]" : item.getSecond().toString()).append(','); } );
         return sb.length() == 0 ? "" : sb.deleteCharAt(sb.length() - 1).toString();
     }
     
@@ -29,7 +29,8 @@ public class Main {
         print(concatSorted(Arrays.asList(
                 new Pair<>(2, "aa"),
                 new Pair<>(1, "bb"),
-                new Pair<>(5, "ccc")
+                new Pair<>(5, 7),
+                new Pair<>(4, null)
         )), 2);
     }
     
