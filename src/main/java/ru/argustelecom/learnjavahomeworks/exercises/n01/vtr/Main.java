@@ -1,8 +1,8 @@
 package ru.argustelecom.learnjavahomeworks.exercises.n01.vtr;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
 import java.util.function.BiConsumer;
 
 import ru.argustelecom.learnjavahomeworks.exercises.n01.model.Pair;
@@ -12,7 +12,7 @@ public class Main {
     private static void print(String s, Integer l) { System.out.println(new String(new char[l]).replace('\0', ' ') + s); }
     private static void print(String s) { print(s, 0); }
     
-    private static <T extends Pair<? extends Integer, ?>> String concatSorted(List<T> src) {
+    private static <T extends Pair<? extends Integer, ?>> String concatSorted(Collection<T> src) {
         final StringBuilder sb = new StringBuilder();
         src.stream()
                 .sorted(Comparator.comparingInt(T::getFirst))
