@@ -16,12 +16,8 @@ public class Main {
         final StringBuilder sb = new StringBuilder();
         src.stream()
                 .sorted(Comparator.comparingInt(T::getFirst))
-                .forEachOrdered(item -> { 
-                    if (sb.length() != 0)
-                        sb.append(',');
-                    sb.append(item.getSecond()); 
-                } );
-        return sb.toString();
+                .forEachOrdered(item -> { sb.append(item.getSecond()).append(','); } );
+        return sb.length() == 0 ? "" : sb.deleteCharAt(sb.length() - 1).toString();
     }
     
     private static <F extends Number, S, E extends Event<? extends Pair<F, S>>> void handle(E event, BiConsumer<? super F, ? super S> consumer) {
