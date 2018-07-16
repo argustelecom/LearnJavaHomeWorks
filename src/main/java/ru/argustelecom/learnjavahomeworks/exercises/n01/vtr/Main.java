@@ -12,7 +12,7 @@ public class Main {
     private static void print(String s, Integer l) { System.out.println(new String(new char[l]).replace('\0', ' ') + s); }
     private static void print(String s) { print(s, 0); }
     
-    private static <T extends Pair<? extends Integer, ?>> String concatSorted(List<T> src) {
+    private static <T extends Pair<Integer, ?>> String concatSorted(List<T> src) {
         final StringBuilder sb = new StringBuilder();
         src.stream()
                 .sorted(Comparator.comparingInt(T::getFirst))
