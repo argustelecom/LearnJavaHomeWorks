@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @author a.kovalev
@@ -79,11 +80,15 @@ public class Main {
 																{res.append(res.length() > 0 ? "," : "").append(item.getSecond().toString());});
 		return res.toString();
 		*/
-		/*3*/
+		/*3
 		return input_list.stream().sorted(Comparator.comparing(Pair::getFirst))
 					.collect(Collector.of(StringBuilder::new,
 							              (stb, pair) -> {stb.append(stb.length() > 0 ? "," : "").append(pair.getSecond());},
 							              (x, z) -> x, StringBuilder::toString));
+		*/
+
+		return String.join(",", input_list.stream().sorted(Comparator.comparing(Pair::getFirst))
+				.map(Pair::getSecond).collect(Collectors.toList()));
 	}
 
 	//2. Объявить метод handle,
