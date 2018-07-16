@@ -1,4 +1,8 @@
+package ru.argustelecom.learnjavahomeworks.exercises.n01.mike;
+
 import java.util.Comparator;
+
+import ru.argustelecom.learnjavahomeworks.exercises.n01.model.Pair;
 
 public class PairComparator<T extends Pair<? extends Integer,?>> implements Comparator<T> {
 	/* Как бы здесь уйти от явного extends Integer ? 

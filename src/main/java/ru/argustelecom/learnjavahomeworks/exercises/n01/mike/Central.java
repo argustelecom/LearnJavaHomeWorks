@@ -1,8 +1,13 @@
+package ru.argustelecom.learnjavahomeworks.exercises.n01.mike;
+
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.BiConsumer;
 import java.time.LocalDateTime;
+
+import ru.argustelecom.learnjavahomeworks.exercises.n01.model.Pair;
+import ru.argustelecom.learnjavahomeworks.exercises.n01.model.Event;
 
 
 public class Central {
