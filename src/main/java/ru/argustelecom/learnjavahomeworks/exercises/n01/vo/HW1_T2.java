@@ -1,4 +1,4 @@
-package ru.argustelecom.learnjavahomeworks.exercises.n01.al;
+package ru.argustelecom.learnjavahomeworks.exercises.n01.vo;
 
 import ru.argustelecom.learnjavahomeworks.exercises.n01.model.*;
 import java.util.function.BiConsumer;
@@ -11,7 +11,7 @@ public class HW1_T2 {
     В теле метода следует вызвать косьюмера с двумя параметрами, извлечёнными из компонентов пары из события.
     */
 
-    public static <T extends Number, U> void handle(Event<Pair<T,U>> event, BiConsumer<? super T, ? super U> consumer) {
+    public static <A extends Number, B> void handle(Event<Pair<A,B>> event, BiConsumer<? super A, ? super B> consumer) {
         consumer.accept(event.getData().getFirst(), event.getData().getSecond());
     }
 
