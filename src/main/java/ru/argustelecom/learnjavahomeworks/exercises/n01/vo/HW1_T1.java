@@ -11,6 +11,7 @@ public class HW1_T1 {
     в строку через запятую в порядке возрастания соответствующих им значений first.
     Вся операция должна быть описана в виде одного выражения с использованием Streams API.
     */
+
     public static String concatSorted(List<Pair<Integer , String>> list) {
         return list.stream().sorted(Comparator.comparing(Pair::getFirst)).map(Pair::getSecond).collect(Collectors.joining(","));
     }
