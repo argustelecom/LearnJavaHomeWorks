@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
  */
 public class KKMain {
 	public static void main(String[] args) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("item-manager-pu");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("PersistenceUnitKK");
 		EntityManager em = emf.createEntityManager();
 		ApplicationServerInstance asi = new ApplicationServerInstance(
 				ApplicationServerStatus.RUNNING, "test1",
