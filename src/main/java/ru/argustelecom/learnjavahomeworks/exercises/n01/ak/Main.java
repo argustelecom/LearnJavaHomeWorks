@@ -104,7 +104,7 @@ public class Main {
 	//public <..... > void handle(Event<.....> event, BiConsumer<...> consumer) {
 	//	consumer.accept(event.getData().getFirst(), event.getData().getSecond());
 
-	public static <A extends Integer, B extends Object> void handle(Event<? extends Pair<A, B>> event,
+	public static <A extends Number, B> void handle(Event<? extends Pair<A, B>> event,
 			BiConsumer<? super A, ? super B> consumer) {
 		consumer.accept(event.getData().getFirst(), event.getData().getSecond());
 	}
