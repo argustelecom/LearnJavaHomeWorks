@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>RELEASE</version>
+            <version>5.0.10.Final</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
