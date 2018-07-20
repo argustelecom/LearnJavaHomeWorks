@@ -1,4 +1,7 @@
-package ru.argustelecom.learnjava.homework.ex1;
+package main.java.ru.argustelecom.learnjavahomeworks.exercises.n01.defimov;
+
+import ru.argustelecom.learnjavahomeworks.exercises.n01.model.Event;
+import ru.argustelecom.learnjavahomeworks.exercises.n01.model.Pair;
 
 import java.util.Arrays;
 import java.util.Comparator;
