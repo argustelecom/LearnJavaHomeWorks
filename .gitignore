@@ -1,0 +1,13 @@
+*.log
+.#*
+*.*~
+*.jsfdia
+*.orig
+*.bak
+*.ids
+*.iml
+*.ipr
+*.iws
+.idea/
+/out
+/target
