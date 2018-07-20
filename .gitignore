@@ -1,3 +1,30 @@
+# каталоги
+/target/
+.metadata/
+.recommenders/
+RemoteSystemsTempFiles/
+bin/
+.idea
+.ideaDataSources
+dataSources
+.settings/
+.sass-cache/
+/test-output/
+/accesslog-analyzer/
+
+# файлы
+.forge_settings
+.tern-project
+.classpath
+.project
+my.properties
+*~
+#*#
+*.bak
+*.jasper
+*.BASE
+*.LOCAL
+*.REMOTE
 *.log
 .#*
 *.*~
@@ -8,6 +35,4 @@
 *.iml
 *.ipr
 *.iws
-.idea/
-/out
-/target
+
