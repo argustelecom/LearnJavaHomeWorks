@@ -1,3 +1,5 @@
+package ru.argustelecom.learnjavahomeworks.exercises.n02.achalyi;
+
 import java.sql.SQLException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

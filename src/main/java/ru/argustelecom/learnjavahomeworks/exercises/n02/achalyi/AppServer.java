@@ -1,3 +1,5 @@
+package ru.argustelecom.learnjavahomeworks.exercises.n02.achalyi;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 
