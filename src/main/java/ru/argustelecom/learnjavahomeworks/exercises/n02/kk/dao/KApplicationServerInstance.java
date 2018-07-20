@@ -4,24 +4,22 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author k.koropovskiy
  */
 @Entity
-public class ApplicationServerInstance {
+public class KApplicationServerInstance {
 	@Id
 	@GeneratedValue
 	@Getter @Setter @NonNull
@@ -42,23 +40,23 @@ public class ApplicationServerInstance {
 
 	@ManyToOne
 	@Getter @Setter
-	private Customer customer;
+	private KCustomer customer;
 
 	@ManyToOne
 	@Getter @Setter
-	private Version version;
+	private KVersion version;
 
 	@ManyToOne
 	@Getter @Setter
-	private UsageType usageType;
+	private KUsageType usageType;
 
 	@Column
 	@Getter @Setter
 	private String comment;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "applicationServerInstances")
 	@Getter @Setter
-	private List<Team> teams;
+	private List<KTeam> teams;
 
 	@Column(length = 128, nullable = false)
 	@Getter @Setter
@@ -72,12 +70,9 @@ public class ApplicationServerInstance {
 	@Getter @Setter
 	private String installDir;
 
-	public ApplicationServerInstance() {
-		super();
-	}
-
-	public ApplicationServerInstance(ApplicationServerStatus applicationServerStatus, String name, String host,
+	public KApplicationServerInstance(ApplicationServerStatus applicationServerStatus, String name, String host,
 			int portSet) {
+		this();
 		this.applicationServerStatus = applicationServerStatus;
 		this.name = name;
 		this.host = host;
@@ -105,5 +100,44 @@ public class ApplicationServerInstance {
 		}
 	}
 
+	public KApplicationServerInstance(){
+		teams = new ArrayList<>();
+	}
+	public KApplicationServerInstance(
+			ApplicationServerStatus applicationServerStatus, String name, String versionBuildNumber,
+			KCustomer customer, KVersion version,
+			KUsageType usageType, String comment, String host, int portSet, String installDir) {
+		this();
+		this.applicationServerStatus = applicationServerStatus;
+		this.name = name;
+		this.versionBuildNumber = versionBuildNumber;
+		this.customer = customer;
+		this.version = version;
+		this.usageType = usageType;
+		this.comment = comment;
+		this.host = host;
+		this.portSet = portSet;
+		this.installDir = installDir;
+	}
 
+	public Boolean addTeam(KTeam team){
+		return teams.add(team);
+	}
+
+	@Override public String toString() {
+		return "KApplicationServerInstance{" +
+				"id=" + id +
+				", applicationServerStatus=" + applicationServerStatus +
+				", name='" + name + '\'' +
+				", versionBuildNumber='" + versionBuildNumber + '\'' +
+				", customer=" + customer +
+				", version=" + version +
+				", usageType=" + usageType +
+				", comment='" + comment + '\'' +
+				", teams=" + teams +
+				", host='" + host + '\'' +
+				", portSet=" + portSet +
+				", installDir='" + installDir + '\'' +
+				'}';
+	}
 }
