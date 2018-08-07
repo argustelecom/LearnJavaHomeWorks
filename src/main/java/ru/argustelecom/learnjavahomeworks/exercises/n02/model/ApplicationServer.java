@@ -1,19 +1,26 @@
 package ru.argustelecom.learnjavahomeworks.exercises.n02.model;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -36,7 +43,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "application_server")
-@Cacheable
 public class ApplicationServer {
 
 	@Id
@@ -52,8 +58,9 @@ public class ApplicationServer {
 	@Column
 	private String buildNumber;
 
-	@Column
-	private String customer;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 
 	@Column
 	private String version;
@@ -64,11 +71,10 @@ public class ApplicationServer {
 	@Column
 	private String comment;
 
-	//TODO: Застрял на маппинге списка команд использующих сервер.
-	@Column
-	@ManyToMany(mappedBy = "team_name", targetEntity = DeveloperTeam.class)
-	@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-	private List<DeveloperTeam> useByTeams;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "appservers", joinColumns = @JoinColumn(name = "appserver_id"),
+			inverseJoinColumns=@JoinColumn(name = "team_id"))
+	private List<DeveloperTeam> teams;
 
 	@Column(name = "host", nullable = false)
 	private String host;
@@ -81,6 +87,27 @@ public class ApplicationServer {
 
 	@Column
 	private String urlAddress;
+
+	public ApplicationServer(String state, String appServerName, String host, int portOffSet, String installDirPath) {
+		this.state = state;
+		this.appServerName = appServerName;
+		this.teams = new ArrayList<>();
+		this.customer = new Customer();
+		this.host = host;
+		this.portOffSet = portOffSet;
+		this.installDirPath = installDirPath;
+		this.urlAddress = "http://" + host + ":" + (8080 + portOffSet) + "/argus";
+	}
+
+	public ApplicationServer() {
+		this.state = "";
+		this.appServerName = "";
+		this.teams = new ArrayList<>();
+		this.customer = new Customer();
+		this.host = "";
+		this.portOffSet = 0;
+		this.installDirPath = "";
+	}
 
 	public String getComment() {
 		return comment;
@@ -122,11 +149,11 @@ public class ApplicationServer {
 		this.buildNumber = buildNumber;
 	}
 
-	public String getCustomer() {
+	public Customer getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(String customer) {
+	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
@@ -146,16 +173,16 @@ public class ApplicationServer {
 		this.goal = goal;
 	}
 
-	public List<DeveloperTeam> getUseByTeams() {
-		return useByTeams;
+	public List<DeveloperTeam> getTeams() {
+		return teams;
 	}
 
-	public void setUseByTeams(List<DeveloperTeam> useByTeams) {
-		this.useByTeams = useByTeams;
+	public void setTeams(List<DeveloperTeam> teams) {
+		this.teams = teams;
 	}
 
-	public void addUseByTeam(DeveloperTeam team) {
-		this.useByTeams.add(team);
+	public boolean addTeam(DeveloperTeam team) {
+		return this.teams.add(team);
 	}
 
 	public String getHost() {
@@ -188,5 +215,23 @@ public class ApplicationServer {
 
 	public void setUrlAddress(String urlAddress) {
 		this.urlAddress = urlAddress;
+	}
+
+	@Override public String toString() {
+		return "ApplicationServer{" +
+				"\nid=" + id +
+				", \nstate='" + state + '\'' +
+				", \nappServerName='" + appServerName + '\'' +
+				", \nbuildNumber='" + buildNumber + '\'' +
+				", \n\ncustomer=" + customer.getName() +
+				", \n\nversion='" + version + '\'' +
+				", \ngoal='" + goal + '\'' +
+				", \ncomment='" + comment + '\'' +
+				", \n\nteams=" + teams.stream().map(t -> t.getName()).toArray() +
+				", \n\nhost='" + host + '\'' +
+				", \nportOffSet=" + portOffSet +
+				", \ninstallDirPath='" + installDirPath + '\'' +
+				", \nurlAddress='" + urlAddress + '\'' +
+				'}';
 	}
 }
