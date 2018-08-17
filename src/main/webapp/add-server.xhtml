@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewParam name="id" value="#{addServerBean.id}"/>
+
+        <f:viewAction action="#{addServerBean.init}" />
+        <f:viewAction action="#{addServerBean.init2}" />
+    </f:metadata>
+
+    <h:outputLabel rendered="#{addServerBean.adding}" value="Add server"/>
+    <h:outputLabel rendered="#{not addServerBean.adding}"
+                   value="Edit server ##{addServerBean.id}"/>
+
+    <f:view>
+        <h:form>
+            <p>
+                Title:
+                <p:inputText id="title" value="#{addServerBean.title}">
+                    <f:validateLength minimum="3" maximum="50"/>
+                    <f:validateRegex pattern="Bob \d+"/>
+                </p:inputText>
+                <h:message for="title"/>
+            </p>
+            <p>
+                <!--<h:inputText validator="ru.levelp.web.HostPortValidator">-->
+                    <!--<f:validator validatorId="ru.levelp.web.HostPortValidator" />-->
+                <!--</h:inputText>-->
+
+                Host port:
+                <p:inputText id="hostPort"
+                             value="#{addServerBean.hostPort}"
+                             validator="ru.levelp.web.HostPortValidator"/>
+
+                <h:message for="hostPort"/>
+            </p>
+
+            <p>
+                <h:commandButton value="#{addServerBean.adding ? 'Add' : 'Apply'}">
+                    <f:ajax event="click"
+                            execute="@form" render="@form :otherForm:child"
+                            listener="#{addServerBean.onAddButtonClicked}" />
+                </h:commandButton>
+
+                <p:commandButton action="#{addServerBean.onAddButtonClicked}"
+                                 value="#{addServerBean.adding ? 'Add' : 'Apply'}"
+                                 process="@form"
+                                 update="@form :otherForm:child"
+                />
+            </p>
+        </h:form>
+
+        <h:form id="otherForm">
+            <p>
+                <h:outputText id="child" value="#{addServerBean.resultMessage}" />
+            </p>
+        </h:form>
+    </f:view>
+</h:body>
+
+<h:head>
+</h:head>
+
+</html>
