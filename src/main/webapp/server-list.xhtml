@@ -15,12 +15,12 @@
             <p>
                 <span>#{server.name}</span>
                 <p:link outcome="add-server" value="Edit">
-                    <f:param name="id" value="#{server.id}" />
+                    <f:param name="id" value="#{server.id}"/>
                 </p:link>
             </p>
         </ui:repeat>
 
-        <p:dataTable value="#{serverList.servers}" var="server">
+        <p:dataTable id="serversTable" value="#{serverList.servers}" var="server">
             <f:facet name="head">
                 Server list
             </f:facet>
@@ -32,12 +32,71 @@
             </p:column>
             <p:column>
                 <p:link outcome="add-server" value="Edit">
-                    <f:param name="id" value="#{server.id}" />
+                    <f:param name="id" value="#{server.id}"/>
                 </p:link>
             </p:column>
         </p:dataTable>
 
-        <p:link outcome="add-server" value="Add" />
+        <p:link outcome="add-server" value="Add"/>
+
+        <p:commandButton onclick="PF('addServerDialog').show();" value="Add (dialog)" />
+
+        <div>
+            <p:dialog widgetVar="addServerDialog" header="Add server" modal="true">
+                    <h:form>
+                        <p:tooltip/>
+
+                        <p>
+                            <p:panelGrid id="grid" columns="3" cellpadding="5">
+                                Title:
+                                <p:inputText id="title"
+                                             value="#{addServerBean.title}">
+                                    <!--<f:validateLength minimum="3" maximum="50"/>-->
+                                    <f:validateRegex pattern="^Bob \d+$"/>
+                                    <p:clientValidator event="keyup"/>
+                                </p:inputText>
+                                <p:message for="title" display="text"/>
+                            </p:panelGrid>
+                        </p>
+                        <p>
+                            <!--<h:inputText validator="ru.levelp.web.HostPortValidator">-->
+                            <!--<f:validator validatorId="ru.levelp.web.HostPortValidator" />-->
+                            <!--</h:inputText>-->
+
+                            Host port:
+                            <p:inputText id="hostPort"
+                                         value="#{addServerBean.hostPort}"
+                                         validator="ru.levelp.web.HostPortValidator"/>
+
+                            <h:message for="hostPort"/>
+                        </p>
+
+                        <p>
+                            URL:
+                            <p:inputText id="url" value="#{addServerBean.url}"
+                                converter="urlConverter" />
+                            <h:message for="url"/>
+                        </p>
+
+                        <p>
+                            <h:commandButton rendered="true" value="#{addServerBean.adding ? 'Add' : 'Apply'}">
+                                <f:ajax event="click"
+                                        execute="@form" render="@form :otherForm:child"
+                                        listener="#{addServerBean.addButtonClicked}"
+                                />
+                            </h:commandButton>
+
+                            <p:commandButton actionListener="#{addServerBean.addButtonClicked}"
+                                             oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('addServerDialog').hide(); }"
+                                             value="Add"
+                                             process="@form"
+                                             update="@form :serversTable"
+                                             validateClient="true"
+                            />
+                        </p>
+                    </h:form>
+            </p:dialog>
+        </div>
     </f:view>
 </h:body>
 </html>

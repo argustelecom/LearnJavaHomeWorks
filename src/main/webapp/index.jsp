@@ -3,7 +3,8 @@
 <body>
 <h1>Welcome</h1>
 
-<a href="admin/add-server">Add server</a>
+<a href="add-server.xhtml">Add server</a>
+<a href="server-list.xhtml">List servers</a>
 
 </body>
 </html>

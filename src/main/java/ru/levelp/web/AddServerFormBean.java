@@ -7,14 +7,27 @@ import ru.levelp.weld.ApplicationServerUpdated;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
+import javax.faces.component.UIComponent;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.net.URL;
+import java.util.List;
 
 @Named("addServerBean")
 @RequestScoped
 public class AddServerFormBean {
+    @Size(min = 3, max = 10)
     private String title;
+
     private String hostPort;
+
+    private URL url;
+
+    private List<String> tags;
+
     private String resultMessage;
     private String id;
 
@@ -29,6 +42,22 @@ public class AddServerFormBean {
 
     public boolean isAdding() {
         return id == null;
+    }
+
+    public URL getUrl() {
+        return url;
+    }
+
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public void init() {
@@ -50,7 +79,7 @@ public class AddServerFormBean {
         System.out.println("init2");
     }
 
-    public String onAddButtonClicked() {
+    public void addButtonClicked(ActionEvent actionEvent) {
         try {
             AppServer server = new AppServer(title, hostPort);
             if (id != null) {
@@ -61,10 +90,10 @@ public class AddServerFormBean {
             }
 
             resultMessage = "Server added";
-            return "server-list?faces-redirect=true";
+//            return "server-list?faces-redirect=true";
         } catch (Throwable t) {
             resultMessage = "Failed to add server";
-            return "add-server";
+//            return "add-server";
         }
     }
 

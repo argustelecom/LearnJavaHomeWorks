@@ -24,13 +24,19 @@
 
     <f:view>
         <h:form>
+            <p:tooltip />
+
             <p>
-                Title:
-                <p:inputText id="title" value="#{addServerBean.title}">
-                    <f:validateLength minimum="3" maximum="50"/>
-                    <f:validateRegex pattern="Bob \d+"/>
-                </p:inputText>
-                <h:message for="title"/>
+                <p:panelGrid id="grid" columns="3" cellpadding="5">
+                    Title:
+                    <p:inputText id="title"
+                                 value="#{addServerBean.title}">
+                        <!--<f:validateLength minimum="3" maximum="50"/>-->
+                        <f:validateRegex pattern="Bob \d+"/>
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                    <p:message for="title" display="text"/>
+                </p:panelGrid>
             </p>
             <p>
                 <!--<h:inputText validator="ru.levelp.web.HostPortValidator">-->
@@ -46,16 +52,18 @@
             </p>
 
             <p>
-                <h:commandButton value="#{addServerBean.adding ? 'Add' : 'Apply'}">
+                <h:commandButton rendered="true" value="#{addServerBean.adding ? 'Add' : 'Apply'}">
                     <f:ajax event="click"
                             execute="@form" render="@form :otherForm:child"
-                            listener="#{addServerBean.onAddButtonClicked}" />
+                            listener="#{addServerBean.addButtonClicked}"
+                    />
                 </h:commandButton>
 
-                <p:commandButton action="#{addServerBean.onAddButtonClicked}"
+                <p:commandButton actionListener="#{addServerBean.addButtonClicked}"
                                  value="#{addServerBean.adding ? 'Add' : 'Apply'}"
                                  process="@form"
                                  update="@form :otherForm:child"
+                                 validateClient="true"
                 />
             </p>
         </h:form>
@@ -67,8 +75,5 @@
         </h:form>
     </f:view>
 </h:body>
-
-<h:head>
-</h:head>
 
 </html>
