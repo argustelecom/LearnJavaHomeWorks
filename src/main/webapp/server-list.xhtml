@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <title>Servers list</title>
-</h:head>
-<h:body>
-    <f:view>
-        <ui:repeat value="#{serverList.servers}" var="server">
-            <p>
-                <span>#{server.name}</span>
-                <p:link outcome="add-server" value="Edit">
-                    <f:param name="id" value="#{server.id}"/>
-                </p:link>
-            </p>
-        </ui:repeat>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="page-template.xhtml"
+>
+    <ui:define name="title">Servers list</ui:define>
+    <ui:define name="heading">Servers list</ui:define>
+    <ui:define name="content">
+        <f:view>
+            <ui:repeat value="#{serverList.servers}" var="server">
+                <p>
+                    <span>#{server.name}</span>
+                    <p:link outcome="add-server" value="Edit">
+                        <f:param name="id" value="#{server.id}"/>
+                    </p:link>
+                </p>
+            </ui:repeat>
 
-        <p:dataTable id="serversTable" value="#{serverList.servers}" var="server">
-            <f:facet name="head">
-                Server list
-            </f:facet>
-            <p:column headerText="Name">
-                #{server.name}
-            </p:column>
-            <p:column headerText="Host/port">
-                #{server.hostPort}
-            </p:column>
-            <p:column>
-                <p:link outcome="add-server" value="Edit">
-                    <f:param name="id" value="#{server.id}"/>
-                </p:link>
-            </p:column>
-        </p:dataTable>
+            <p:dataTable id="serversTable" value="#{serverList.servers}" var="server">
+                <f:facet name="head">
+                    Server list
+                </f:facet>
+                <p:column headerText="Name">
+                    #{server.name}
+                </p:column>
+                <p:column headerText="Host/port">
+                    #{server.hostPort}
+                </p:column>
+                <p:column>
+                    <p:link outcome="add-server" value="Edit">
+                        <f:param name="id" value="#{server.id}"/>
+                    </p:link>
+                </p:column>
+            </p:dataTable>
 
-        <p:link outcome="add-server" value="Add"/>
+            <p:link outcome="add-server" value="Add"/>
 
-        <p:commandButton onclick="PF('addServerDialog').show();" value="Add (dialog)" />
+            <p:commandButton onclick="PF('addServerDialog').show();" value="Add (dialog)"/>
 
-        <div>
-            <p:dialog widgetVar="addServerDialog" header="Add server" modal="true">
+            <div>
+                <p:dialog widgetVar="addServerDialog" header="Add server" modal="true">
                     <h:form>
                         <p:tooltip/>
 
@@ -74,18 +73,11 @@
                         <p>
                             URL:
                             <p:inputText id="url" value="#{addServerBean.url}"
-                                converter="urlConverter" />
+                                         converter="urlConverter"/>
                             <h:message for="url"/>
                         </p>
 
                         <p>
-                            <h:commandButton rendered="true" value="#{addServerBean.adding ? 'Add' : 'Apply'}">
-                                <f:ajax event="click"
-                                        execute="@form" render="@form :otherForm:child"
-                                        listener="#{addServerBean.addButtonClicked}"
-                                />
-                            </h:commandButton>
-
                             <p:commandButton actionListener="#{addServerBean.addButtonClicked}"
                                              oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('addServerDialog').hide(); }"
                                              value="Add"
@@ -95,8 +87,13 @@
                             />
                         </p>
                     </h:form>
-            </p:dialog>
-        </div>
-    </f:view>
-</h:body>
-</html>
+                </p:dialog>
+            </div>
+
+            <f:websocket channel="updates">
+                <f:ajax event="updateServerList"
+                        render=":serversTable"/>
+            </f:websocket>
+        </f:view>
+    </ui:define>
+</ui:composition>

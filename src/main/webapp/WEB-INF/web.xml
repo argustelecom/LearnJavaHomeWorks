@@ -9,6 +9,11 @@
         <param-value>true</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

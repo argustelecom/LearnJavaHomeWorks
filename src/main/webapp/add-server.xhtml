@@ -55,7 +55,7 @@
                 <h:commandButton rendered="true" value="#{addServerBean.adding ? 'Add' : 'Apply'}">
                     <f:ajax event="click"
                             execute="@form" render="@form :otherForm:child"
-                            listener="#{addServerBean.addButtonClicked}"
+                            listener="{addServerBean.addButtonClicked}"
                     />
                 </h:commandButton>
 

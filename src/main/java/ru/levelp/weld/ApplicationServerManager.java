@@ -4,6 +4,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.faces.push.Push;
+import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -30,6 +32,10 @@ public class ApplicationServerManager {
     @MyDatabase
     private EntityManager em;
 
+    @Inject
+    @Push(channel = "updates")
+    private PushContext updates;
+
     public List<AppServer> getAllServers() {
         return servers;
     }
@@ -39,5 +45,7 @@ public class ApplicationServerManager {
             @Observes ApplicationServerDiscovered event) {
         servers.add(event.getServer());
         em.persist(event.getServer());
+
+        updates.send("updateServerList");
     }
 }
